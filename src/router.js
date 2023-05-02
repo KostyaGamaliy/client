@@ -16,6 +16,11 @@ const routes = [
 		name: "register",
 		component: () => import("@/pages/public/RegisterPage.vue"),
 	},
+	{
+		path: "/projects",
+		name: "projects",
+		component: () => import("@/pages/private/ProjectsPage.vue"),
+	},
 ];
 
 const router = createRouter({

@@ -3,6 +3,7 @@
 		<header-app class="fixed z-10 top-0 left-0 w-screen border-bottom border-2 border-gray-200"></header-app>
 		<section class="absolute overflow-y-auto top-80 w-70p end-5">
 			<h1>home</h1>
+			<router-link to="projects"> All projects </router-link>
 			<p>
 				Username: {{ username }}<br>
 				User email: {{ useremail }}<br>

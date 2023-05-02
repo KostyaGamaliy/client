@@ -1,6 +1,8 @@
 <template>
 	<header class="header navbar navbar-expand-lg navbar-dark bg-dark px-4">
-		<a class="navbar-brand" href="#">PMS</a>
+		<div class="navbar-brand">
+			PMS
+		</div>
 		<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
 			<ul class="navbar-nav">
 				<li class="nav-item">

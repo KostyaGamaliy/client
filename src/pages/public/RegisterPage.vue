@@ -38,7 +38,7 @@
 								</div>
 								
 								<!-- Submit button -->
-								<button type="submit" class="btn btn-primary btn-block" @click.prevent="registerUser">Register</button>
+								<button type="submit" class="btn btn-primary btn-block" @click.prevent="sendCredentials">Register</button>
 							</form>
 						</div>
 					</div>
@@ -77,33 +77,33 @@ export default {
 		},
 		validateEmail() {
 			if (!this.email) {
-				this.emailError = 'Ви нічого не ввели';
+				this.emailError = 'This field mustn\'t be empty';
 			} else if (!/\S+@\S+\.\S+/.test(this.email)) {
-				this.emailError = 'Ввели некоректну пошту';
+				this.emailError = 'Mail in the wrong format';
 			} else {
 				this.emailError = null;
 			}
 		},
 		validatePassword() {
 			if (!this.password) {
-				this.passwordError = 'Введіть ваш пароль';
+				this.passwordError = 'This field mustn\'t be empty';
 			} else {
 				this.passwordError = null;
 			}
 		},
 		validateName() {
 			if (!this.name) {
-				this.nameError = "Введіть ваше ім'я";
+				this.nameError = "This field mustn\'t be empty";
 			} else {
 				this.nameError = null;
 			}
 		},
 		validateConfirmPassword() {
 			if (!this.confirmPassword) {
-				this.confirmPasswordError = "Введіть підтвердження паролю";
+				this.confirmPasswordError = "This field mustn\'t be empty";
 			}
 			else if (this.password !== this.confirmPassword) {
-				this.confirmPasswordError = 'Паролі не співпадають';
+				this.confirmPasswordError = 'Passwords do not match';
 			} else {
 				this.confirmPasswordError = null;
 			}
@@ -118,9 +118,10 @@ export default {
 					'name':this.name,
 					'email':this.email,
 					'password':this.password,
-					'password_confirmation':this.password_confirmation,
-					'device_name' : 'desktop'
+					'confirmPassword':this.confirmPassword,
+					'device_name': 'desktop'
 				}
+				// console.log(userData)
 				this.registerUser(userData);
 			}
 		}

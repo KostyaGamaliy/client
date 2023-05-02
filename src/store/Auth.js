@@ -18,8 +18,30 @@ export const useAuthStore = defineStore('auth', {
 			}).then((response) => {
 				this.token = response.data.token;
 				this.user= response.data.user;
+				
+				console.log(this.token, this.user)
+				
 				localStorage.setItem('token', this.token);
-				console.log("token: ", this.token, "user: ", this.user)
+				router.push('/');
+			})
+				.catch(()=>{
+					Swal.fire({
+						icon: 'error',
+						title: 'Something went wrong...',
+						text: 'Incorrect data entered!',
+						timer: 2500,
+						showConfirmButton: false,
+					})
+				})
+		},
+		
+		registerUser(data) {
+			AxiosInstance.post('/auth/register', {
+				...data
+			}).then((response) => {
+				this.token = response.data.token;
+				this.user= response.data.user;
+				localStorage.setItem('token', this.token);
 				router.push('/');
 			})
 				.catch(()=>{
