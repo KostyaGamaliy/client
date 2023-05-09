@@ -40,9 +40,9 @@
 							</button>
 					</td>
 					<td class="text-center">
-						<a v-if="mainUser.id !== user.id" type="button" class="btn btn-danger">
+						<button v-if="mainUser.id !== user.id" type="button" class="btn btn-danger" @click="confirmDelete(this.$route.params.id, user.id)">
 						Remove from the project
-						</a>
+						</button>
 					</td>
 				</tr>
 				</tbody>
@@ -76,7 +76,22 @@ export default {
 			AxiosInstance.get('/roles').then((response) => {
 				this.roles = response.data.roles
 			})
-		}
+		},
+		
+		async confirmDelete(projectId, memberId) {
+			if (confirm('Are you sure?')) {
+				try {
+					await this.deleteMember(projectId, memberId);
+				} catch (error) {
+					console.error(error);
+				}
+			}
+		},
+		
+		async deleteMember(projectId, memberId) {
+			await AxiosInstance.delete(`/projects/${projectId}/members/${memberId}/destroy`);
+			window.location.reload();
+		},
 	},
 	
 	mounted() {
