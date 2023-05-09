@@ -27,7 +27,7 @@
 				<router-link :to="{ name: 'dashboard-edit', params: { projectId: project.id, dashboardId: chooseDashboard } }" class="btn btn-sm btn-success me-3">
 					<i class="fa fa-arrow-left"></i> Edit table
 				</router-link>
-				<button class="btn btn-sm btn-danger" >
+				<button class="btn btn-sm btn-danger" @click="confirmDeleteTable(chooseDashboard)">
 					Delete table
 				</button>
 			</div>
@@ -70,7 +70,7 @@
 							</router-link>
 						</td>
 						<td>
-							<button class="btn btn-danger" @click="confirmDelete(task.id)">
+							<button class="btn btn-danger" @click="confirmDeleteTask(task.id)">
 								DELETE
 							</button>
 						</td>
@@ -118,7 +118,22 @@ export default {
 			})
 		},
 		
-		async confirmDelete(id) {
+		async confirmDeleteTable(id) {
+			if (confirm('Are you sure?')) {
+				try {
+					await this.deleteTable(id);
+				} catch (error) {
+					console.error(error);
+				}
+			}
+		},
+		
+		async deleteTable(id) {
+			await AxiosInstance.delete(`/projects/dashboards/${id}/destroy`);
+			window.location.reload();
+		},
+		
+		async confirmDeleteTask(id) {
 			if (confirm('Are you sure?')) {
 				try {
 					await this.deleteTask(id);
