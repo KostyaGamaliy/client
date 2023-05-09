@@ -1,31 +1,37 @@
 <template>
-	<div class="bg-white p-4 rounded">
-		<div class="lead">
-			Task info
-		</div>
+	<div class="relative">
+		<header-app class="fixed z-10 top-0 left-0 w-screen border-bottom border-2 border-gray-200"></header-app>
 		
-		<div class="container mt-4">
-			<div class="row">
-				<div class="col-md-6">
-					<h4>Name</h4>
-					<p>{{ task.name }}</p>
+		<div class="d-flex align-items-center justify-content-around">
+			<div class="bg-white p-4 rounded">
+				<div class="lead">
+					Task info
 				</div>
 				
-				<div class="col-md-6">
-					<h4>Status</h4>
-					<p>{{ task.status }}</p>
-				</div>
-			</div>
-			
-			<div class="row mt-4">
-				<div class="col-md-12">
-					<h4>Description</h4>
-					<p>{{ task.description }}</p>
-				</div>
-				
-				<div class="col-md-6">
-					<h4>Who working on this task</h4>
-					<p>{{ task.user ? task.user.name : '' }}</p>
+				<div class="container mt-4">
+					<div class="row">
+						<div class="col-md-6">
+							<h4>Name</h4>
+							<p>{{ task.name }}</p>
+						</div>
+						
+						<div class="col-md-6">
+							<h4>Status</h4>
+							<p>{{ task.status }}</p>
+						</div>
+					</div>
+					
+					<div class="row mt-4">
+						<div class="col-md-12">
+							<h4>Description</h4>
+							<p>{{ task.description }}</p>
+						</div>
+						
+						<div class="col-md-6">
+							<h4>Who working on this task</h4>
+							<p>{{ task.user ? task.user.name : '' }}</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

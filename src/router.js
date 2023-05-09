@@ -89,6 +89,14 @@ const routes = [
 			requiresAuth: true
 		}
 	},
+	{
+		path: "/projects/:projectId/members/:memberId",
+		name: "member-info",
+		component: () => import("@/components/Member/ViewMember.vue"),
+		meta: {
+			requiresAuth: true
+		}
+	},
 ];
 
 const router = createRouter({

@@ -32,7 +32,7 @@
 						<td v-if="role.id === user.role_id" class="text-center">{{ role.name }}</td>
 					</template>
 					<td class="text-center">
-						<a type="button" class="btn btn-primary">INFO</a>
+						<router-link type="button" class="btn btn-primary" :to="{ name: 'member-info', params: { projectId: project.id, memberId: user.id } }">INFO</router-link>
 					</td>
 					<td class="text-center">
 							<button class="btn btn-success" type="submit">
