@@ -73,6 +73,14 @@ const routes = [
 			requiresAuth: true
 		}
 	},
+	{
+		path: "/projects/:projectId/dashboard/:dashboardId",
+		name: "dashboard-edit",
+		component: () => import("@/components/Dashboard/EditDashboard.vue"),
+		meta: {
+			requiresAuth: true
+		}
+	},
 ];
 
 const router = createRouter({
