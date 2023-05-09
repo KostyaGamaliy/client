@@ -44,9 +44,9 @@
 						</router-link>
 					</td>
 					<td>
-						<button class="btn btn-success" type="submit">
+						<router-link class="btn btn-success" :to="{ name: 'task-edit', params: { projectId: project.id, taskId: task.id } }">
 							EDIT
-						</button>
+						</router-link>
 					</td>
 					<td>
 						<button class="btn btn-danger" @click="confirmDelete(task.id)">

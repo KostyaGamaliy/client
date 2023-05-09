@@ -49,6 +49,14 @@ const routes = [
 			requiresAuth: true
 		}
 	},
+	{
+		path: "/projects/:projectId/tasks/:taskId/edit",
+		name: "task-edit",
+		component: () => import("@/components/Task/EditTask.vue"),
+		meta: {
+			requiresAuth: true
+		}
+	},
 ];
 
 const router = createRouter({
