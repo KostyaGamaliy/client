@@ -1,4 +1,5 @@
 import{ createRouter, createWebHistory } from "vue-router";
+import { useAuthStore } from "@/store/Auth.js";
 
 const routes = [
 	{
@@ -20,6 +21,25 @@ const routes = [
 		path: "/projects",
 		name: "projects",
 		component: () => import("@/pages/private/ProjectsPage.vue"),
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
+		path: "/projects/:id",
+		name: "project-view",
+		component: () => import("@/components/Project/DisplayProject.vue"),
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
+		path: "/projects/:id/edit",
+		name: "project-edit",
+		component: () => import("@/components/Project/EditProject.vue"),
+		meta: {
+			requiresAuth: true
+		}
 	},
 ];
 
@@ -35,6 +55,17 @@ router.beforeResolve((to, from, next) => {
 		NProgress.start()
 	}
 	next()
+})
+
+router.beforeEach((to, from, next) => {
+	const authStore = useAuthStore();
+	const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+	
+	if (requiresAuth && !authStore.loggedIn) {
+		next({ name: 'login' })
+	} else {
+		next()
+	}
 })
 
 router.afterEach((to, from) => {

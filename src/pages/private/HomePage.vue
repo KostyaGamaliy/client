@@ -20,7 +20,6 @@ import {useAuthStore} from "@/store/Auth";
 
 export default {
 	name: "HomePage",
-	components: {},
 	data() {
 		return {
 			username: null,
