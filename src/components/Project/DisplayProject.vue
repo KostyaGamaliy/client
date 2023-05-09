@@ -15,7 +15,7 @@
 				</select>
 			</div>
 			
-			<router-link :to="{name: 'projects'}" class="btn btn-outline-secondary me-3">
+			<router-link :to=" {name: 'projects'} " class="btn btn-outline-secondary me-3">
 				<i class="fa fa-arrow-left"></i> Back
 			</router-link>
 		</div>
@@ -39,9 +39,9 @@
 					<td class="text-center">{{ task.name }}</td>
 					<td class="text-center">{{ task.status }}</td>
 					<td>
-						<button class="btn btn-info">
+						<router-link class="btn btn-info" :to="{ name: 'task-view', params: { id: task.id } }">
 							INFO
-						</button>
+						</router-link>
 					</td>
 					<td>
 						<button class="btn btn-success" type="submit">
@@ -49,7 +49,7 @@
 						</button>
 					</td>
 					<td>
-						<button class="btn btn-danger" type="submit">
+						<button class="btn btn-danger" @click="confirmDelete(task.id)">
 							DELETE
 						</button>
 					</td>
@@ -92,6 +92,21 @@ export default {
 			AxiosInstance(`/projects/${id}/tasks`).then((response) => {
 				this.tasks = response.data.tasks;
 			})
+		},
+		
+		async confirmDelete(id) {
+			if (confirm('Are you sure?')) {
+				try {
+					await this.deleteTask(id);
+				} catch (error) {
+					console.error(error);
+				}
+			}
+		},
+		
+		async deleteTask(id) {
+			await AxiosInstance.delete(`/projects/tasks/${id}/destroy`);
+			window.location.reload();
 		}
 	},
 	

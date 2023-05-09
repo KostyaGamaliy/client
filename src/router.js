@@ -41,6 +41,14 @@ const routes = [
 			requiresAuth: true
 		}
 	},
+	{
+		path: "/projects/tasks/:id",
+		name: "task-view",
+		component: () => import("@/components/Task/DisplayTask.vue"),
+		meta: {
+			requiresAuth: true
+		}
+	},
 ];
 
 const router = createRouter({
