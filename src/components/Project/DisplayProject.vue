@@ -20,6 +20,11 @@
 				<i class="fa fa-arrow-left"></i> Create dashboard
 			</router-link>
 			
+			<router-link v-if="project && project.id" :to="{ name: 'members-view', params: { id: project.id } }"
+			             class="btn btn-sm btn-primary me-3">
+				<i class="fa fa-arrow-left"></i> Show a participant on the project
+			</router-link>
+			
 			<div class="d-flex flex-row justify-content-around shadow-sm" v-if="chooseDashboard">
 				<router-link :to="{ name: 'task-create', params: { projectId: project.id, dashboardId: chooseDashboard } }" class="btn btn-sm btn-primary me-3">
 					<i class="fa fa-arrow-left"></i> Add task
@@ -39,8 +44,6 @@
 		
 		
 		<div v-if="chooseDashboard !== null" class="rounded-1 mx-4 mt-3">
-			<div></div>
-			
 			<div v-if="tasks.length > 0">
 				<table class="table table-dark">
 					<thead>
@@ -58,18 +61,18 @@
 						<th scope="row">{{ task.id }}</th>
 						<td class="text-center">{{ task.name }}</td>
 						<td class="text-center">{{ task.status }}</td>
-						<td>
+						<td class="text-center">
 							<router-link class="btn btn-info" :to="{ name: 'task-view', params: { id: task.id } }">
 								INFO
 							</router-link>
 						</td>
-						<td>
+						<td class="text-center">
 							<router-link class="btn btn-success"
 							             :to="{ name: 'task-edit', params: { projectId: project.id, taskId: task.id } }">
 								EDIT
 							</router-link>
 						</td>
-						<td>
+						<td class="text-center">
 							<button class="btn btn-danger" @click="confirmDeleteTask(task.id)">
 								DELETE
 							</button>
