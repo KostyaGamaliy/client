@@ -15,47 +15,71 @@
 				</select>
 			</div>
 			
-			<router-link :to=" {name: 'projects'} " class="btn btn-outline-secondary me-3">
+			<router-link v-if="project && project.id" :to="{ name: 'dashboard-create', params: { id: project.id } }"
+			             class="btn btn-sm btn-primary me-3">
+				<i class="fa fa-arrow-left"></i> Create dashboard
+			</router-link>
+			
+			<div class="d-flex flex-row justify-content-around shadow-sm" v-if="chooseDashboard">
+				<router-link :to="{ name: 'task-create', params: { projectId: project.id, dashboardId: chooseDashboard } }" class="btn btn-sm btn-primary me-3">
+					<i class="fa fa-arrow-left"></i> Add task
+				</router-link>
+				<router-link :to="{ name: 'dashboard-create', params: { id: project.id } }" class="btn btn-sm btn-success me-3">
+					<i class="fa fa-arrow-left"></i> Edit table
+				</router-link>
+				<button class="btn btn-sm btn-danger" >
+					Delete table
+				</button>
+			</div>
+			
+			<router-link :to=" { name: 'projects' } " class="btn btn-outline-secondary me-3">
 				<i class="fa fa-arrow-left"></i> Back
 			</router-link>
 		</div>
 		
 		
-		<div v-if="tasks.length > 0" class="rounded-1 mx-4 mt-3">
-			<table class="table table-dark">
-				<thead>
-				<tr>
-					<th scope="col">#</th>
-					<th scope="col" class="text-center">Name</th>
-					<th scope="col" class="text-center">Status</th>
-					<th scope="col" class="text-center">Info</th>
-					<th scope="col" class="text-center">Edit</th>
-					<th scope="col" class="text-center">Delete</th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr v-for="task in tasks">
-					<th scope="row">{{ task.id }}</th>
-					<td class="text-center">{{ task.name }}</td>
-					<td class="text-center">{{ task.status }}</td>
-					<td>
-						<router-link class="btn btn-info" :to="{ name: 'task-view', params: { id: task.id } }">
-							INFO
-						</router-link>
-					</td>
-					<td>
-						<router-link class="btn btn-success" :to="{ name: 'task-edit', params: { projectId: project.id, taskId: task.id } }">
-							EDIT
-						</router-link>
-					</td>
-					<td>
-						<button class="btn btn-danger" @click="confirmDelete(task.id)">
-							DELETE
-						</button>
-					</td>
-				</tr>
-				</tbody>
-			</table>
+		<div v-if="chooseDashboard !== null" class="rounded-1 mx-4 mt-3">
+			<div></div>
+			
+			<div v-if="tasks.length > 0">
+				<table class="table table-dark">
+					<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col" class="text-center">Name</th>
+						<th scope="col" class="text-center">Status</th>
+						<th scope="col" class="text-center">Info</th>
+						<th scope="col" class="text-center">Edit</th>
+						<th scope="col" class="text-center">Delete</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr v-for="task in tasks">
+						<th scope="row">{{ task.id }}</th>
+						<td class="text-center">{{ task.name }}</td>
+						<td class="text-center">{{ task.status }}</td>
+						<td>
+							<router-link class="btn btn-info" :to="{ name: 'task-view', params: { id: task.id } }">
+								INFO
+							</router-link>
+						</td>
+						<td>
+							<router-link class="btn btn-success"
+							             :to="{ name: 'task-edit', params: { projectId: project.id, taskId: task.id } }">
+								EDIT
+							</router-link>
+						</td>
+						<td>
+							<button class="btn btn-danger" @click="confirmDelete(task.id)">
+								DELETE
+							</button>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div v-else> No one data</div>
 		</div>
 	</div>
 </template>

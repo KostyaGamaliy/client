@@ -57,6 +57,22 @@ const routes = [
 			requiresAuth: true
 		}
 	},
+	{
+		path: "/projects/:id/dashboard",
+		name: "dashboard-create",
+		component: () => import("@/components/Dashboard/CreateDashboard.vue"),
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
+		path: "/projects/:projectId/dashboard/:dashboardId/task/create",
+		name: "task-create",
+		component: () => import("@/components/Task/CreateTask.vue"),
+		meta: {
+			requiresAuth: true
+		}
+	},
 ];
 
 const router = createRouter({
