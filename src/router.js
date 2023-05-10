@@ -26,6 +26,14 @@ const routes = [
 		}
 	},
 	{
+		path: "/projects/create",
+		name: "projects-create",
+		component: () => import("@/components/Project/CreateProject.vue"),
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
 		path: "/projects/:id",
 		name: "project-view",
 		component: () => import("@/components/Project/DisplayProject.vue"),
