@@ -8,6 +8,11 @@
 					Task info
 				</div>
 				
+				<button class="btn btn-outline-secondary me-3" @click="goBack()">
+					<i class="fa fa-arrow-left"></i> Back
+				</button>
+				
+				
 				<div class="container mt-4">
 					<div class="row">
 						<div class="col-md-6">
@@ -40,6 +45,7 @@
 
 <script>
 import AxiosInstance from "@/services/AxiosInstance";
+import router from "@/router";
 
 export default {
 	name: "DisplayTask",
@@ -53,9 +59,12 @@ export default {
 	methods: {
 		getTask(id) {
 			AxiosInstance.get(`/projects/tasks/${id}`).then((response) => {
-				console.log(response.data.data)
 				this.task = response.data.data;
 			});
+		},
+		
+		goBack() {
+			router.go(-1);
 		}
 	},
 	

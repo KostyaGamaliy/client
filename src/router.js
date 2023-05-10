@@ -84,7 +84,7 @@ const routes = [
 	{
 		path: "/projects/:id/members",
 		name: "members-view",
-		component: () => import("@/components/Member/DisplayMembers.vue"),
+		component: () => import("@/components/Member/DisplayMember.vue"),
 		meta: {
 			requiresAuth: true
 		}
@@ -93,6 +93,14 @@ const routes = [
 		path: "/projects/:projectId/members/:memberId",
 		name: "member-info",
 		component: () => import("@/components/Member/ViewMember.vue"),
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
+		path: "/projects/:projectId/members/:memberId/edit",
+		name: "member-edit",
+		component: () => import("@/components/Member/EditMember.vue"),
 		meta: {
 			requiresAuth: true
 		}

@@ -35,9 +35,9 @@
 						<router-link type="button" class="btn btn-primary" :to="{ name: 'member-info', params: { projectId: project.id, memberId: user.id } }">INFO</router-link>
 					</td>
 					<td class="text-center">
-							<button class="btn btn-success" type="submit">
+							<router-link class="btn btn-success" type="submit" :to="{ name: 'member-edit', params: { projectId: project.id, memberId: user.id } }">
 								EDIT
-							</button>
+							</router-link>
 					</td>
 					<td class="text-center">
 						<button v-if="mainUser.id !== user.id" type="button" class="btn btn-danger" @click="confirmDelete(this.$route.params.id, user.id)">
@@ -55,7 +55,7 @@
 import AxiosInstance from "@/services/AxiosInstance";
 
 export default {
-	name: "DisplayMembers",
+	name: "DisplayMember",
 	
 	data() {
 		return {

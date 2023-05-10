@@ -4,12 +4,6 @@
 		<section class="absolute overflow-y-auto top-80 w-70p end-5">
 			<h1>home</h1>
 			<router-link to="projects"> All projects </router-link>
-			<p>
-				Username: {{ username }}<br>
-				User email: {{ useremail }}<br>
-				Is login: {{ loggedIn }}<br>
-				Token: {{ token }}<br>
-			</p>
 		</section>
 	</div>
 </template>
@@ -22,19 +16,7 @@ export default {
 	name: "HomePage",
 	data() {
 		return {
-			username: null,
-			useremail: null,
 		};
-	},
-	
-	mounted() {
-		const localStorageData = JSON.parse(window.localStorage.getItem('auth'));
-		this.username = localStorageData.user.name;
-		this.useremail = localStorageData.user.email;
-	},
-	
-	computed: {
-		...mapState(useAuthStore, ["loggedIn", "user", "token"])
 	},
 };
 </script>
