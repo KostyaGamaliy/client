@@ -6,6 +6,11 @@
 				Members
 			</div>
 			
+			<router-link v-if="project && project.id" :to="{ name: 'member-create', params: { id: this.$route.params.id } }"
+			             class="btn btn-sm btn-primary me-3">
+				<i class="fa fa-arrow-left"></i> Add a participant to the project
+			</router-link>
+			
 			<router-link :to=" { name: 'project-view', params: { id: this.$route.params.id } } "
 			             class="btn btn-outline-secondary me-3">
 				<i class="fa fa-arrow-left"></i> Back
