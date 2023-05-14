@@ -9,6 +9,8 @@
 				<label for="name">Name:</label>
 				<input type="text" id="name" class="form-control" v-model="dashboard.name">
 				
+				<div v-if="errors.name" class="alert alert-danger">{{ errors.name[0] }}</div>
+				
 				<button type="submit" class="btn btn-outline-primary shadow-none">Create table</button>
 			</form>
 		</div>
@@ -19,6 +21,7 @@
 import AxiosInstance from "@/services/AxiosInstance";
 import router from "@/router";
 import Swal from "sweetalert2";
+import {nameValidation} from "@/validation/dashboard";
 
 export default {
 	name: "CreateDashboard",
@@ -27,26 +30,31 @@ export default {
 		return {
 			dashboard: {
 				name: null,
-			}
+			},
+			errors: {}
 		}
 	},
 	
 	methods: {
 		submitForm(id) {
-			AxiosInstance.post(`/projects/${id}/dashboards/store`, {
-				name: this.dashboard.name,
-				project_id: id
-			}).then((response) => {
-				router.push(`/projects/${id}`);
-			}).catch(()=>{
-				Swal.fire({
-					icon: 'error',
-					title: 'Something went wrong...',
-					text: 'Incorrect data entered!',
-					timer: 2500,
-					showConfirmButton: false,
+			this.errors.name = nameValidation(this.dashboard.name)
+			
+			if (!this.errors.name) {
+				AxiosInstance.post(`/projects/${id}/dashboards/store`, {
+					name: this.dashboard.name,
+					project_id: id
+				}).then((response) => {
+					router.push(`/projects/${id}`);
+				}).catch(() => {
+					Swal.fire({
+						icon: 'error',
+						title: 'Something went wrong...',
+						text: 'Incorrect data entered!',
+						timer: 2500,
+						showConfirmButton: false,
+					})
 				})
-			})
+			}
 		},
 	}
 }

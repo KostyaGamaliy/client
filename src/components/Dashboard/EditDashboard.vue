@@ -11,6 +11,8 @@
 					<input type="text" id="name" class="form-control" v-model="dashboard.name">
 				</div>
 				
+				<div v-if="errors.name" class="alert alert-danger">{{ errors.name[0] }}</div>
+				
 				<button type="submit" class="btn btn-outline-primary shadow-none">Update table</button>
 			</form>
 		</div>
@@ -20,6 +22,7 @@
 <script>
 import AxiosInstance from "@/services/AxiosInstance";
 import router from "@/router";
+import {nameValidation} from "@/validation/dashboard";
 
 export default {
 	name: "EditDashboard",
@@ -27,17 +30,22 @@ export default {
 	data() {
 		return {
 			dashboard: {},
+			errors: {}
 		}
 	},
 	
 	methods: {
 		submitForm(id) {
-			AxiosInstance.put(`/projects/dashboards/${id}/update`, {
-				name: this.dashboard.name,
-				project_id: this.$route.params.projectId
-			}).then((response) => {
-				router.push(`/projects/${this.$route.params.projectId}`)
-			})
+			this.errors.name = nameValidation(this.dashboard.name)
+			
+			if (!this.errors.name) {
+				AxiosInstance.put(`/projects/dashboards/${id}/update`, {
+					name: this.dashboard.name,
+					project_id: this.$route.params.projectId
+				}).then((response) => {
+					router.push(`/projects/${this.$route.params.projectId}`)
+				})
+			}
 		},
 		
 		getDashboard(projectId, dashboardId) {
