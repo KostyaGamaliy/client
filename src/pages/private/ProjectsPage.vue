@@ -1,6 +1,6 @@
 <template>
 	<header-app />
-	<search-projects :per-page="perPage" @search="handleSearch"/>
+	<search-projects :per-page="perPage" @search="handleSearch" @sortDate="handleSort"/>
 	<display-projects :projects="displayedProjects"/>
 	<pagination-projects :current-page="currentPage" :page-count="pageCount" :total-pages="totalPages" @page-change="currentPage = $event"/>
 </template>
@@ -21,6 +21,7 @@ export default{
 		return {
 			projects: [],
 			searchQuery: '',
+			dateSort: false,
 			currentPage: 1,
 			perPage: 8,
 			totalPages: 0,
@@ -31,7 +32,7 @@ export default{
 	
 	methods: {
 		getProjects() {
-			AxiosInstance.get(`/projects?search=${this.searchQuery}&perPage=${this.perPage}&page=${this.currentPage}&userId=${this.userId}`)
+			AxiosInstance.get(`/projects?search=${this.searchQuery}&perPage=${this.perPage}&page=${this.currentPage}&userId=${this.userId}&byDate=${this.dateSort}`)
 				.then((response) => {
 					this.projects = response.data.data;
 					this.displayedProjects = this.projects;
@@ -44,6 +45,13 @@ export default{
 			this.perPage = perPage;
 			this.getProjects();
 		},
+		handleSort(query, page, perPage, sortByDate) {
+			this.searchQuery = query;
+			this.currentPage = page;
+			this.perPage = perPage;
+			this.dateSort = sortByDate;
+			this.getProjects();
+		}
 	},
 	
 	computed: {
