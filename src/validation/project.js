@@ -31,8 +31,6 @@ export function descriptionsValidation(desc) {
 export function imageValidation(file) {
 	let errors = []
 	
-	
-	
 	if (file !== null) {
 		const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.svg)$/i;
 		const fileSize = file.size / 1024;
