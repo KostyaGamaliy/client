@@ -20,12 +20,18 @@
 						<option v-for="user in users" :value="user.id">{{ user.name }}</option>
 					</select>
 				</div>
+				
+				<div v-if="errors.selectUser" class="alert alert-danger">{{ errors.selectUser[0] }}</div>
+				
 				<div class="mb-3">
 					<label for="user_id" class="form-label">Select role</label>
 					<select class="form-select shadow-none" v-model="selectRole">
 						<option v-for="role in roles" :value="role.id">{{ role.name }}</option>
 					</select>
 				</div>
+				
+				<div v-if="errors.role" class="alert alert-danger">{{ errors.role[0] }}</div>
+				
 				<div class="mb-3" v-if="permissions.length > 0">
 					<label for="permission_id" class="form-label">Permissions</label>
 					<select class="form-select shadow-none"
@@ -46,6 +52,7 @@
 import {Axios} from "axios";
 import AxiosInstance from "@/services/AxiosInstance";
 import router from "@/router";
+import {roleValidation, userValidation} from "@/validation/member";
 
 export default {
 	name: "CreateMember",
@@ -55,6 +62,7 @@ export default {
 			users: {},
 			roles: {},
 			permissions: {},
+			errors: {},
 			selectUser: null,
 			selectRole: null,
 		}
@@ -62,12 +70,17 @@ export default {
 	
 	methods: {
 		submitForm(id) {
-			AxiosInstance.post(`/projects/${id}/members/store`, {
-				user_id: this.selectUser,
-				role_id: this.selectRole
-			}).then((response) => {
-				router.go(-1);
-			})
+			this.errors.selectUser = userValidation(this.selectUser)
+			this.errors.role = roleValidation(this.selectRole)
+			
+			if (!this.errors.selectUser && !this.errors.role) {
+				AxiosInstance.post(`/projects/${id}/members/store`, {
+					user_id: this.selectUser,
+					role_id: this.selectRole
+				}).then((response) => {
+					router.go(-1);
+				})
+			}
 		},
 		
 		getUsers(id) {

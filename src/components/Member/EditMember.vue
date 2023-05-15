@@ -19,6 +19,9 @@
 							<option v-for="item in roles" :value="item.id" :selected="userRole.id === item.id">{{ item.name }}</option>
 						</select>
 					</div>
+					
+					<div v-if="errors.role" class="alert alert-danger">{{ errors.role[0] }}</div>
+					
 					<div class="mb-3">
 						<label for="permission_id" class="form-label">Permissions</label>
 						<select class="form-select shadow-none"
@@ -44,6 +47,7 @@
 import AxiosInstance from "@/services/AxiosInstance";
 import router from "@/router";
 import Swal from "sweetalert2";
+import {roleValidation} from "@/validation/member";
 
 export default {
 	name: "EditMember",
@@ -53,7 +57,8 @@ export default {
 			user: {},
 			userRole: {},
 			roles: {},
-			permissions: {}
+			permissions: {},
+			errors: {}
 		}
 	},
 	
@@ -67,23 +72,27 @@ export default {
 		},
 		
 		getRoles(id) {
-			AxiosInstance.get(`/projects/${id}/members/edit`).then((response) => {
+			AxiosInstance.get(`/projects/${id}/members/create`).then((response) => {
 				this.roles = response.data.roles
 			})
 		},
 		
 		submitForm(memberId, roleId) {
-			AxiosInstance.put(`/projects/members/${memberId}/update/${roleId}`).then((response) => {
-				router.go(-1);
-			}).catch(()=>{
-				Swal.fire({
-					icon: 'error',
-					title: 'Something went wrong...',
-					text: 'Incorrect data entered!',
-					timer: 2500,
-					showConfirmButton: false,
+			this.errors.role = roleValidation(this.userRole.id)
+			
+			if (!this.errors.role) {
+				AxiosInstance.put(`/projects/members/${memberId}/update/${roleId}`).then((response) => {
+					router.go(-1);
+				}).catch(() => {
+					Swal.fire({
+						icon: 'error',
+						title: 'Something went wrong...',
+						text: 'Incorrect data entered!',
+						timer: 2500,
+						showConfirmButton: false,
+					})
 				})
-			})
+			}
 		}
 	},
 	
