@@ -83,10 +83,6 @@
 			</div>
 			
 			<div v-else> No one data</div>
-			
-			<div class="d-flex justify-content-center align-items-center">
-				<button class="btn btn-danger m-2" @click="downloadPDF">Make PDF</button>
-			</div>
 		</div>
 	</div>
 </template>
@@ -155,24 +151,6 @@ export default {
 			await AxiosInstance.delete(`/projects/tasks/${id}/destroy`);
 			window.location.reload();
 		},
-		
-		downloadPDF() {
-			AxiosInstance.get(`/pdf-download/${this.$route.params.id}`)
-				.then(() => {
-					const pusher = new Pusher('0ef8d31fe818b7949d4b', {
-						cluster: 'eu',
-						useTLS: true
-					});
-					
-					const channel = pusher.subscribe('pms');
-					channel.bind('pdf-ready', data => {
-						window.open(data.url, '_blank');
-					});
-				})
-				.catch(error => {
-					console.log(error);
-				});
-		}
 	},
 	
 	mounted() {

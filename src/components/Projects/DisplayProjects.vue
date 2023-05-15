@@ -12,6 +12,7 @@
 						<p class="card-text text-truncate">{{ project.descriptions }}</p>
 					</div>
 					<div class="d-flex justify-content-around pb-3">
+							<button class="btn btn-primary" @click="downloadPDF(project.id)">Make PDF</button>
 						<router-link type="button" class="btn btn-primary" :to="{ name: 'project-edit', params: { id: project.id } }">Edit</router-link>
 						<button type="submit" class="btn btn-danger" @click="confirmDelete(project.id)">Delete</button>
 					</div>
@@ -27,6 +28,7 @@
 
 <script>
 import AxiosInstance from "@/services/AxiosInstance";
+import Pusher from "pusher-js";
 export default {
 	name: "DisplayProjects",
 	
@@ -47,9 +49,28 @@ export default {
 				}
 			}
 		},
+		
 		async deleteProject(id) {
 			await AxiosInstance.delete(`/projects/${id}/destroy`);
 			window.location.reload();
+		},
+		
+		downloadPDF(id) {
+			AxiosInstance.get(`/pdf-download/${id}`)
+				.then(() => {
+					const pusher = new Pusher('0ef8d31fe818b7949d4b', {
+						cluster: 'eu',
+						useTLS: true
+					});
+					
+					const channel = pusher.subscribe('pms');
+					channel.bind('pdf-ready', data => {
+						window.open(data.url, '_blank');
+					});
+				})
+				.catch(error => {
+					console.log(error);
+				});
 		}
 	}
 }
