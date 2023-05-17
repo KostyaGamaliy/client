@@ -1,7 +1,12 @@
-import{ createRouter, createWebHistory } from "vue-router";
+  import{ createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "@/store/Auth.js";
 
 const routes = [
+	{
+		path: '/:catchAll(.*)',
+		name: 'NotFound',
+		component: () => import("@/pages/NotFound.vue"),
+	},
 	{
 		path: "/",
 		name: "home",

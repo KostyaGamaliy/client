@@ -12,7 +12,7 @@ export default {
 	name: 'NotFound',
 	methods: {
 		goTo() {
-			this.$router.push({ name: 'homePage' })
+			this.$router.push({ name: 'home' })
 		}
 	}
 }

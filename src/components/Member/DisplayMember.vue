@@ -23,7 +23,7 @@
 				<tr>
 					<th scope="col">#</th>
 					<th scope="col" class="text-center">Name</th>
-					<th scope="col" class="text-center">Status</th>
+					<th scope="col" class="text-center">Role</th>
 					<th scope="col" class="text-center">Info</th>
 					<th scope="col" class="text-center">Edit</th>
 					<th scope="col" class="text-center">Delete</th>
@@ -34,7 +34,7 @@
 					<th scope="row">{{ user.id }}</th>
 					<td class="text-center">{{ user.name }}</td>
 					<template v-for="role in roles">
-						<td v-if="role.id === user.role_id" class="text-center">{{ role.name }}</td>
+						<td v-if="role.user_id === user.id && role.project_id === project.id" class="text-center">{{ role.name }}</td>
 					</template>
 					<td class="text-center">
 						<router-link type="button" class="btn btn-primary" :to="{ name: 'member-info', params: { projectId: project.id, memberId: user.id } }">INFO</router-link>

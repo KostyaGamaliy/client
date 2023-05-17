@@ -66,7 +66,7 @@
 								INFO
 							</router-link>
 						</td>
-						<td class="text-center">
+						<td class="text-center" v-if="task.user_id == userId">
 							<router-link class="btn btn-success"
 							             :to="{ name: 'task-edit', params: { projectId: project.id, taskId: task.id } }">
 								EDIT
@@ -100,6 +100,7 @@ export default {
 			dashboards: {},
 			tasks: {},
 			chooseDashboard: null,
+			userId: null,
 		};
 	},
 	
@@ -157,6 +158,8 @@ export default {
 		const id = this.$route.params.id;
 		this.getProject(id);
 		this.getDashboards(id);
+		const userData = JSON.parse(window.localStorage.getItem('auth'));
+		this.userId = userData.user.id;
 	},
 }
 </script>
