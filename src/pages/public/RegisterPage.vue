@@ -121,7 +121,7 @@ export default {
 					'confirmPassword':this.confirmPassword,
 					'device_name': 'desktop'
 				}
-				// console.log(userData)
+
 				this.registerUser(userData);
 			}
 		}

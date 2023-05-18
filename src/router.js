@@ -3,9 +3,13 @@ import { useAuthStore } from "@/store/Auth.js";
 
 const routes = [
 	{
-		path: '/:catchAll(.*)',
+		path: '/404',
 		name: 'NotFound',
 		component: () => import("@/pages/NotFound.vue"),
+	},
+	{
+		path: '/:pathMatch(.*)*',
+		redirect: '/404',
 	},
 	{
 		path: "/",
