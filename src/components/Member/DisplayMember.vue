@@ -26,7 +26,7 @@
 					<th scope="col" class="text-center">Role</th>
 					<th scope="col" class="text-center">Info</th>
 					<th scope="col" class="text-center">Edit</th>
-					<th scope="col" class="text-center">Delete</th>
+					<th scope="col" class="text-center" v-if="project.creator_id === mainUser.id">Delete</th>
 				</tr>
 				</thead>
 				<tbody v-for="user in project.users" :key="user.id">
@@ -44,7 +44,7 @@
 								EDIT
 							</router-link>
 					</td>
-					<td class="text-center">
+					<td class="text-center" v-if="project.creator_id === mainUser.id">
 						<button v-if="mainUser.id !== user.id" type="button" class="btn btn-danger" @click="confirmDelete(this.$route.params.id, user.id)">
 						Remove from the project
 						</button>
