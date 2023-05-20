@@ -29,6 +29,8 @@
 <script>
 import AxiosInstance from "@/services/AxiosInstance";
 import Pusher from "pusher-js";
+import router from "@/router";
+import Swal from "sweetalert2";
 export default {
 	name: "DisplayProjects",
 	
@@ -51,7 +53,9 @@ export default {
 		},
 		
 		async deleteProject(id) {
-			await AxiosInstance.delete(`/projects/${id}/destroy`);
+			await AxiosInstance.delete(`/projects/${id}/destroy`).catch(() => {
+				router.push('/404')
+			});
 			window.location.reload();
 		},
 		
@@ -68,8 +72,13 @@ export default {
 						window.open(data.url, '_blank');
 					});
 				})
-				.catch(error => {
-					console.log(error);
+				.catch(()=>{
+					Swal.fire({
+						icon: 'error',
+						title: 'Something went wrong...',
+						timer: 2500,
+						showConfirmButton: false,
+					})
 				});
 		}
 	}

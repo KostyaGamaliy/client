@@ -1,8 +1,9 @@
 <template>
-	<header-app />
+	<header-app/>
 	<search-projects :per-page="perPage" @search="handleSearch" @sortDate="handleSort"/>
 	<display-projects :projects="displayedProjects"/>
-	<pagination-projects :current-page="currentPage" :page-count="pageCount" :total-pages="totalPages" @page-change="currentPage = $event"/>
+	<pagination-projects :current-page="currentPage" :page-count="pageCount" :total-pages="totalPages"
+	                     @page-change="currentPage = $event"/>
 </template>
 
 <script>
@@ -13,10 +14,11 @@ import HeaderApp from "@/components/HeaderApp.vue";
 import AxiosInstance from "@/services/AxiosInstance";
 import {mapState} from "pinia";
 import {useAuthStore} from "@/store/Auth";
+import router from "@/router";
 
-export default{
+export default {
 	name: "ProjectsPage",
-	components:{DisplayProjects, PaginationProjects, SearchProjects, HeaderApp},
+	components: {DisplayProjects, PaginationProjects, SearchProjects, HeaderApp},
 	data() {
 		return {
 			projects: [],
@@ -37,6 +39,9 @@ export default{
 					this.projects = response.data.data;
 					this.displayedProjects = this.projects;
 					this.totalPages = response.data.pagination.totalPages;
+				})
+				.catch(() => {
+					router.push('/404')
 				});
 		},
 		handleSearch(query, page, perPage) {

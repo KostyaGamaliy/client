@@ -26,10 +26,12 @@
 			</router-link>
 			
 			<div class="d-flex flex-row justify-content-around shadow-sm" v-if="chooseDashboard">
-				<router-link :to="{ name: 'task-create', params: { projectId: project.id, dashboardId: chooseDashboard } }" class="btn btn-sm btn-primary me-3">
+				<router-link :to="{ name: 'task-create', params: { projectId: project.id, dashboardId: chooseDashboard } }"
+				             class="btn btn-sm btn-primary me-3">
 					<i class="fa fa-arrow-left"></i> Add task
 				</router-link>
-				<router-link :to="{ name: 'dashboard-edit', params: { projectId: project.id, dashboardId: chooseDashboard } }" class="btn btn-sm btn-success me-3">
+				<router-link :to="{ name: 'dashboard-edit', params: { projectId: project.id, dashboardId: chooseDashboard } }"
+				             class="btn btn-sm btn-success me-3">
 					<i class="fa fa-arrow-left"></i> Edit table
 				</router-link>
 				<button class="btn btn-sm btn-danger" @click="confirmDeleteTable(chooseDashboard)">
@@ -90,6 +92,7 @@
 <script>
 import AxiosInstance from "@/services/AxiosInstance";
 import Pusher from "pusher-js";
+import router from "@/router";
 
 export default {
 	name: "DisplayProject",
@@ -106,20 +109,28 @@ export default {
 	
 	methods: {
 		getProject(id) {
-			AxiosInstance.get(`/projects/${id}`).then((response) => {
-				this.project = response.data.data;
-			});
+			AxiosInstance.get(`/projects/${id}`)
+				.then((response) => {
+					this.project = response.data.data;
+				})
+				.catch(() => {
+					router.push('/404')
+				});
 		},
 		
 		getDashboards(id) {
 			AxiosInstance(`/projects/${id}/dashboards`).then((response) => {
 				this.dashboards = response.data.dashboards;
+			}).catch(() => {
+				router.push('/404')
 			})
 		},
 		
 		getTasks(id) {
 			AxiosInstance(`/projects/${id}/tasks`).then((response) => {
 				this.tasks = response.data.tasks;
+			}).catch(() => {
+				router.push('/404')
 			})
 		},
 		

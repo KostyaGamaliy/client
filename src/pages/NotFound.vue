@@ -1,9 +1,10 @@
 <template>
 	<section>
-		<h1 class="text-center text-5xl">404 - Page Not Found</h1>
-		<p>This page no longer exists or was moved to another location.</p>
-		
-		<button @click="goTo" class="px-4 py-2 bg-sky-900 text-white rounded-2xl">&lt; Back</button>
+		<div class="container d-flex flex-column justify-content-center align-items-center">
+			<h1 class="display-1">404</h1>
+			<p class="lead mb-4">The page you are looking for does not exist.</p>
+			<button class="btn btn-primary" @click="goToMain">Go to Main</button>
+		</div>
 	</section>
 </template>
 
@@ -11,7 +12,7 @@
 export default {
 	name: 'NotFound',
 	methods: {
-		goTo() {
+		goToMain() {
 			this.$router.push({ name: 'home' })
 		}
 	}
