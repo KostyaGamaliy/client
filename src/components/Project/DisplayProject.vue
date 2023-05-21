@@ -82,6 +82,10 @@
 					</tr>
 					</tbody>
 				</table>
+				
+				<div class="container d-flex flex-column justify-content-center align-items-center">
+					<button class="btn btn-primary" @click="downLoadPdf">Get data about project</button>
+				</div>
 			</div>
 			
 			<div v-else> No one data</div>
@@ -93,6 +97,7 @@
 import AxiosInstance from "@/services/AxiosInstance";
 import Pusher from "pusher-js";
 import router from "@/router";
+import { ElNotification } from 'element-plus';
 
 export default {
 	name: "DisplayProject",
@@ -163,6 +168,21 @@ export default {
 			await AxiosInstance.delete(`/projects/tasks/${id}/destroy`);
 			window.location.reload();
 		},
+		
+		downLoadPdf() {
+			AxiosInstance.post(`/projects/create_pdf`, {
+				project_id: this.project.id
+			}).catch((error) => {
+				console.log(error);
+			});
+			
+			ElNotification({
+				title: 'PDF',
+				message: h('i', { style: 'color: teal' }, 'Очікуйте на звіт в форматі PDF'),
+				type: 'success',
+				offset: 100,
+			});
+		}
 	},
 	
 	mounted() {

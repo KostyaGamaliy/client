@@ -32,16 +32,6 @@
 				
 				<div v-if="errors.role" class="alert alert-danger">{{ errors.role[0] }}</div>
 				
-				<div class="mb-3" v-if="permissions.length > 0">
-					<label for="permission_id" class="form-label">Permissions</label>
-					<select class="form-select shadow-none"
-					        id="inputPermission"
-					        multiple
-					        disabled>
-						<option v-for="permission in permissions" :value="permission.id">{{ permission.description }}</option>
-					</select>
-				</div>
-				
 				<button type="submit" class="btn btn-outline-primary shadow-none">Add</button>
 			</form>
 		</div>
@@ -61,7 +51,6 @@ export default {
 		return {
 			users: {},
 			roles: {},
-			permissions: {},
 			errors: {},
 			selectUser: null,
 			selectRole: null,
@@ -89,24 +78,11 @@ export default {
 				this.roles = response.data.roles;
 			})
 		},
-		
-		getPermissions(id) {
-			AxiosInstance.get(`/roles/${id}/get-permissions`).then((response) => {
-				console.log(response.data.permissions)
-				this.permissions = response.data.permissions
-			})
-		}
 	},
 	
 	mounted() {
 		const id = this.$route.params.id;
 		this.getUsers(id);
-	},
-	
-	watch: {
-		selectRole: function (newVal, oldVal) {
-			this.getPermissions(newVal);
-		}
 	},
 }
 </script>
