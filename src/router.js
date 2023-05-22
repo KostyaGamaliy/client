@@ -129,7 +129,15 @@ const routes = [
 		meta: {
 			requiresAuth: true
 		}
-	}
+	},
+	{
+		path: "/projects/:id/chat",
+		name: "chat-show",
+		component: () => import("@/pages/private/ChatPage.vue"),
+		meta: {
+			requiresAuth: true
+		}
+	},
 ];
 
 const router = createRouter({

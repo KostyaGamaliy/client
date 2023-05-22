@@ -7,6 +7,16 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import HeaderApp from "@/components/HeaderApp.vue";
 import SidebarHome from "@/components/SidebarHome.vue";
 import router from "./router";
+import Echo from 'laravel-echo';
+
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+	broadcaster: 'pusher',
+	key: '0ef8d31fe818b7949d4b',
+	cluster: 'eu',
+	encrypted: true,
+});
 
 const pinia = createPinia()
 const app = createApp(App)

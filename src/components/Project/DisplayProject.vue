@@ -15,6 +15,11 @@
 				</select>
 			</div>
 			
+			<router-link v-if="project && project.id" :to="{ name: 'chat-show', params: { id: project.id } }"
+			             class="btn btn-sm btn-primary me-3">
+				<i class="fa fa-arrow-left"></i> Project chat
+			</router-link>
+			
 			<router-link v-if="project && project.id" :to="{ name: 'dashboard-create', params: { id: project.id } }"
 			             class="btn btn-sm btn-primary me-3">
 				<i class="fa fa-arrow-left"></i> Create dashboard
