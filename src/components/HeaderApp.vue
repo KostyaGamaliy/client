@@ -3,6 +3,9 @@
 		<div class="navbar-brand">
 			PMS
 		</div>
+		<div class="nav-item" v-if="pdfUrl">
+			<a :href="`http://localhost:85/${pdfUrl}`" target="_blank" class="nav-link btn btn-success" @click="deleteLocalUrl">Show PDF</a>
+		</div>
 		<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
 			<ul class="navbar-nav">
 				<li class="nav-item">
@@ -25,30 +28,46 @@
 			</ul>
 		</div>
 	</header>
-
 </template>
 
 <script>
 import router from "@/router";
-import {mapActions, mapState} from "pinia";
+import {mapActions, mapGetters, mapState} from "pinia";
+import emitter from "tiny-emitter/instance";
 import {useAuthStore} from "@/store/Auth";
-import axiosInstance from "@/services/AxiosInstance";
+import {useProjectStore} from "@/store/Project";
 
 export default {
 	name: "HeaderApp",
 	
 	data() {
-		return {};
+		return {
+			pdfUrl: localStorage.getItem('pdf_url') || null,
+		}
+	},
+	
+	beforeMount() {
+		emitter.on("pdf-url-updated", (url) => {
+			localStorage.setItem('pdf_url', url)
+			this.pdfUrl = url;
+		});
 	},
 	
 	methods: {
 		...mapActions(useAuthStore, ["logout"]),
 		router() {
-			return router
+			return router;
 		},
+		
+		deleteLocalUrl() {
+			localStorage.removeItem('pdf_url')
+			window.location.reload()
+		}
 	},
+	
 	computed: {
-		...mapState(useAuthStore, ["loggedIn", "user", "token"])
+		...mapState(useAuthStore, ["loggedIn", "user", "token"]),
+		...mapGetters(useProjectStore, ["getPdfPath"])
 	},
 };
 </script>

@@ -1,32 +1,34 @@
 <template>
 	<div>
-		<router-view />
+		<router-view/>
 	</div>
-<!--	<div id="app">-->
-<!--		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">-->
-<!--			<div class="container">-->
-<!--				<a class="navbar-brand" href="">Navbar</a>-->
-<!--				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--					<span class="navbar-toggler-icon"></span>-->
-<!--				</button>-->
-<!--				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">-->
-<!--					<ul class="navbar-nav ms-auto">-->
-<!--						<li class="nav-item">-->
-<!--							<a class="nav-link" href="">Contact</a>-->
-<!--						</li>-->
-<!--						<li class="nav-item">-->
-<!--							<a class="nav-link" href="">Pricing</a>-->
-<!--						</li>-->
-<!--						<li class="nav-item">-->
-<!--							<a class="nav-link" href="">Download</a>-->
-<!--						</li>-->
-<!--					</ul>-->
-<!--				</div>-->
-<!--			</div>-->
-<!--		</nav>-->
-<!--	</div>-->
 </template>
 
 <script>
-
+import pusher from "@/services/pusher";
+import emitter from 'tiny-emitter/instance';
+import {useProjectStore} from "@/store/Project";
+import {mapActions} from "pinia";
+export default {
+	name: 'App',
+	
+	data() {
+		return {
+			channel: null,
+		}
+	},
+	
+	created() {
+		pusher.connection.bind('connected', () => {
+			this.channel = pusher.subscribe('pms');
+			this.channel.bind('pdf-ready', data => {
+				emitter.emit('pdf-url-updated', data.pdf_url);
+			});
+		});
+	},
+	
+	methods: {
+		...mapActions(useProjectStore, ['storePdfPath']),
+	},
+}
 </script>

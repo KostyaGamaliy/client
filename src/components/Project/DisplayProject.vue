@@ -68,12 +68,13 @@
 								INFO
 							</router-link>
 						</td>
-						<td class="text-center" v-if="task.user_id == userId">
+						<td class="text-center" v-if="task.user_id == userId || project.creator_id == userId">
 							<router-link class="btn btn-success"
 							             :to="{ name: 'task-edit', params: { projectId: project.id, taskId: task.id } }">
 								EDIT
 							</router-link>
 						</td>
+						<td v-else></td>
 						<td class="text-center">
 							<button class="btn btn-danger" @click="confirmDeleteTask(task.id)">
 								DELETE
@@ -95,9 +96,7 @@
 
 <script>
 import AxiosInstance from "@/services/AxiosInstance";
-import Pusher from "pusher-js";
 import router from "@/router";
-import { ElNotification } from 'element-plus';
 
 export default {
 	name: "DisplayProject",
@@ -170,17 +169,10 @@ export default {
 		},
 		
 		downLoadPdf() {
-			AxiosInstance.post(`/projects/create_pdf`, {
+			AxiosInstance.post('/projects/create_pdf', {
 				project_id: this.project.id
 			}).catch((error) => {
 				console.log(error);
-			});
-			
-			ElNotification({
-				title: 'PDF',
-				message: h('i', { style: 'color: teal' }, 'Очікуйте на звіт в форматі PDF'),
-				type: 'success',
-				offset: 100,
 			});
 		}
 	},

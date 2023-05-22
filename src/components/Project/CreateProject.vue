@@ -13,6 +13,10 @@
 		
 		<div class="mx-auto my-3" style="width: 900px">
 			<form @submit.prevent="submitForm()">
+				<div class="d-flex justify-content-center mb-3 border-">
+					<img :src="previewImageSrc" class="card-img-top rounded-2" style="width: 286px; height: 10rem" alt="none image">
+				</div>
+				
 				<div class="form-group">
 					<label for="name">Name:</label>
 					<input type="text" id="name" class="form-control" v-model="project.name">
@@ -55,6 +59,7 @@ export default {
 				descriptions: null,
 				preview_image: null,
 			},
+			previewImage: null,
 			userId: null,
 			errors: {}
 		}
@@ -62,7 +67,8 @@ export default {
 	
 	methods: {
 		handleImageChange(e) {
-			this.project.preview_image = e.target.files[0]
+			this.previewImage = e.target.files[0];
+			this.project.preview_image = this.previewImage;
 		},
 		
 		submitForm() {
@@ -84,6 +90,16 @@ export default {
 				}).then((response) => {
 					router.go(-1);
 				})
+			}
+		}
+	},
+	
+	computed: {
+		previewImageSrc() {
+			if (this.previewImage) {
+				return URL.createObjectURL(this.previewImage);
+			} else {
+				return `http://localhost:85/storage/${this.project.preview_image}`;
 			}
 		}
 	},

@@ -53,9 +53,7 @@ export default {
 		},
 		
 		async deleteProject(id) {
-			await AxiosInstance.delete(`/projects/${id}/destroy`).catch(() => {
-				router.push('/404')
-			});
+			await AxiosInstance.delete(`/projects/${id}/destroy`);
 			window.location.reload();
 		},
 		

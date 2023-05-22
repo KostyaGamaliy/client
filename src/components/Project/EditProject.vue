@@ -4,7 +4,7 @@
 			<div class="col-md-6 mx-auto">
 				<h1 class="text-center">Edit Project</h1>
 				<form @submit.prevent="submitForm">
-					<div class="d-flex justify-content-center mb-3 border-">
+					<div class="d-flex justify-content-center mb-3 border">
 						<img :src="previewImageSrc" class="card-img-top rounded-2" style="width: 286px; height: 10rem" alt="none image">
 					</div>
 					
@@ -94,7 +94,7 @@ export default {
 			if (this.previewImage) {
 				return URL.createObjectURL(this.previewImage);
 			} else {
-				return `http://localhost:85/storage/${this.project.preview_image}`;
+				return 'http://localhost:85/storage/images/default-img-for-project.jpg';
 			}
 		}
 	},
