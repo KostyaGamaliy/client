@@ -6,24 +6,41 @@
 			<div class="text-center display-4">
 				Project Chat
 			</div>
+			
+			<router-link :to=" { name: 'project-view', params: { id: this.$route.params.id } } "
+			             class="btn btn-outline-secondary me-3">
+				<i class="fa fa-arrow-left"></i> Back
+			</router-link>
 		</div>
 		
 		<div class="bg-dark flex-1 p-2 sm:p-6 justify-between flex flex-col h-screen">
 			
 			<div class="overflow-y-auto pt-14 pb-6">
 				<ul v-if="messages" class="mr-20">
-					<li v-for="message in messages" :key="message.id" class="">
-						
-						<div class="d-flex">
-							<p class="text-primary mr-2">{{ message.created_at }} </p>
-							<p class="text-warning fs-5">{{ message.sender }}</p>
+					<li v-for="message in messages" :key="message.id" class="d-flex flex-column">
+						<div v-if="userId === message.sender_id" class="text-end">
+							<div class="d-flex justify-content-end">
+								<p class="text-primary mr-2">{{ message.created_at }} </p>
+								<p class="text-warning fs-5">{{ message.sender }}</p>
+							</div>
+							
+							<div class="d-inline-block bg-primary rounded-lg px-4">
+								<p class="text-dark">{{ message.message }}</p>
+							</div>
 						</div>
 						
-						<div class="d-inline-block bg-primary rounded-lg px-4">
-							<p class="text-dark">{{ message.message }}</p>
+						<div v-else class="text-start">
+							<div class="d-flex">
+								<p class="text-primary mr-2">{{ message.created_at }} </p>
+								<p class="text-warning fs-5">{{ message.sender }}</p>
+							</div>
+							
+							<div class="d-inline-block bg-primary rounded-lg px-4">
+								<p class="text-dark">{{ message.message }}</p>
+							</div>
 						</div>
-					
 					</li>
+				
 				</ul>
 			</div>
 			
@@ -53,16 +70,14 @@ export default {
 	name: "ChatPage",
 	
 	data() {
-		// let receiver_id = this.$route.params.id;
-		
 		return {
 			messages: null,
 			message: "",
-			receiver_id: 2,
 			errors: {
 				message: "",
 			},
 			errorsStatus: [],
+			userId: null,
 		};
 	},
 	
@@ -78,7 +93,8 @@ export default {
 		sendMessage() {
 			
 			let user_message = {
-				receiver_id: this.receiver_id,
+				sender_id: this.userId,
+				project_id: this.$route.params.id,
 				message: this.message,
 			};
 			AxiosInstance
@@ -102,7 +118,7 @@ export default {
 		
 		getMessages() {
 			AxiosInstance
-				.get(`/chat/${this.$route.params.id}/${this.receiver_id}`)
+				.get(`/chat/${this.$route.params.id}/${this.userId}`)
 				.then((response) => {
 					if (!response) {
 						return response;
@@ -129,6 +145,8 @@ export default {
 	},
 	
 	mounted() {
+		const userData = JSON.parse(window.localStorage.getItem('auth'));
+		this.userId = userData.user.id;
 		this.getMessages();
 	},
 }
