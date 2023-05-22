@@ -42,14 +42,14 @@ export default {
 	
 	data() {
 		return {
-			pdfUrl: localStorage.getItem('pdf_url') || null,
+			pdfUrl: null,
 		}
 	},
 	
 	beforeMount() {
 		emitter.on("pdf-url-updated", (url) => {
-			localStorage.setItem('pdf_url', url)
 			this.pdfUrl = url;
+			localStorage.setItem('pdf_url', url)
 		});
 	},
 	
@@ -61,7 +61,7 @@ export default {
 		
 		deleteLocalUrl() {
 			localStorage.removeItem('pdf_url')
-			window.location.reload()
+			this.pdfUrl = null;
 		}
 	},
 	

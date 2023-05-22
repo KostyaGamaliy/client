@@ -75,11 +75,12 @@
 							</router-link>
 						</td>
 						<td v-else></td>
-						<td class="text-center">
+						<td class="text-center" v-if="task.user_id == userId || project.creator_id == userId">
 							<button class="btn btn-danger" @click="confirmDeleteTask(task.id)">
 								DELETE
 							</button>
 						</td>
+						<td v-else></td>
 					</tr>
 					</tbody>
 				</table>

@@ -22,16 +22,6 @@
 					
 					<div v-if="errors.role" class="alert alert-danger">{{ errors.role[0] }}</div>
 					
-					<div class="mb-3">
-						<label for="permission_id" class="form-label">Permissions</label>
-						<select class="form-select shadow-none"
-						        id="inputPermission"
-						        multiple
-						        disabled>
-							<option v-for="permission in permissions" :value="permission.id">{{ permission.description }}</option>
-						</select>
-					</div>
-					
 					<button type="submit" class="btn btn-outline-primary shadow-none">Update user</button>
 					<router-link :to=" { name: 'members-view', params: { id: this.$route.params.projectId } } "
 					             class="btn btn-outline-secondary mx-3">
@@ -57,17 +47,15 @@ export default {
 			user: {},
 			userRole: {},
 			roles: {},
-			permissions: {},
 			errors: {}
 		}
 	},
 	
 	methods: {
 		getUser(id) {
-			AxiosInstance.get(`/projects/members/${id}`).then((response) => {
+			AxiosInstance.get(`/projects/${this.$route.params.projectId}/members/${id}`).then((response) => {
 				this.user = response.data.member;
-				this.userRole = response.data.role;
-				this.permissions = response.data.permissions;
+				this.userRole = response.data.role[0];
 			});
 		},
 		
