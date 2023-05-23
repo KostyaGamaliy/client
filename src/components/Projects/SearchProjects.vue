@@ -4,8 +4,9 @@
 			<input v-model="searchQuery" type="search" class="col-md-5 ml-2 form-control rounded-start" placeholder="Searching by name..."
 			       aria-label="Search" aria-describedby="search-addon" @input="handleSearch">
 			<select :value="selectValue" @change="updateSortBy($event.target.value)" class="form-select rounded-end">
-				<option value="">Sort by</option>
-				<option value="date">By date</option>
+				<option value="" hidden>Sort by</option>
+				<option value="dateDesc">Date new</option>
+				<option value="dateAsc">Date old</option>
 			</select>
 			<router-link to="projects/create" type="button" class="btn btn-primary rounded-end">Create project</router-link>
 		</div>
@@ -37,7 +38,7 @@
 			},
 			
 			updateSortBy(value) {
-				this.sortBy = true;
+				this.sortBy = value;
 				this.handleSort();
 			},
 			

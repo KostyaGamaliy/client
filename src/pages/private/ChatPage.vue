@@ -13,34 +13,34 @@
 			</router-link>
 		</div>
 		
-		<div class="bg-dark flex-1 p-2 sm:p-6 justify-between flex flex-col h-screen border rounded mx-5">
-			<div class="overflow-y-auto pt-14 pb-6" style="height: 400px;">
+		<div class="bg-dark flex-1 p-2 sm:p-6 justify-between flex flex-col h-screen border rounded mx-5 my-3">
+			<div class="overflow-scroll pt-14 pb-6" style="max-height: 600px;" ref="messageContainer">
 				<ul v-if="messages" class="px-4">
-					<li v-for="message in messages" :key="message.id" class="d-flex flex-column">
+					<li v-for="message in messages" :key="message.id" class="d-flex flex-column my-2">
 						
 						<div v-if="userId === message.sender_id" class="text-end">
-							<div class="d-flex justify-content-end">
-								<p class="text-primary mr-2">{{ message.created_at }} </p>
-								<p class="text-warning fs-5">{{ message.sender }}</p>
+							<div class="d-flex justify-content-end flex-column">
+								<p class="text-warning m-0">{{ message.sender }}</p>
+								<p class="text-primary mb-2">{{ message.created_at }} </p>
 							</div>
 							
-							<div class="d-inline-block bg-primary rounded-lg px-4">
-								<p class="text-dark">{{ message.message }}</p>
+							<div class="d-inline-block bg-primary rounded-lg px-4 rounded">
+								<p class="text-dark my-1">{{ message.message }}</p>
 							</div>
 						</div>
 						
 						<div v-else class="text-start">
-							<div class="d-flex">
-								<p class="text-primary mr-2">{{ message.created_at }} </p>
-								<p class="text-warning fs-5">{{ message.sender }}</p>
+							<div class="d-flex flex-column">
+								<p class="text-warning m-0">{{ message.sender }}</p>
+								<p class="text-primary mb-2">{{ message.created_at }}</p>
 							</div>
 							
-							<div class="d-inline-block bg-primary rounded-lg px-4">
-								<p class="text-dark">{{ message.message }}</p>
+							<div class="d-inline-block bg-primary rounded-lg px-4 rounded">
+								<p class="text-dark my-1">{{ message.message }}</p>
 							</div>
 						</div>
+						
 					</li>
-				
 				</ul>
 			</div>
 			
@@ -61,8 +61,9 @@
 
 <script>
 import AxiosInstance from "@/services/AxiosInstance";
-import {useAuthStore} from "@/store/Auth";
-import {mapState} from "pinia";
+import { useAuthStore } from "@/store/Auth";
+import { mapState } from "pinia";
+import router from "@/router";
 
 export default {
 	name: "ChatPage",
@@ -89,29 +90,25 @@ export default {
 	
 	methods: {
 		sendMessage() {
-			
 			let user_message = {
 				sender_id: this.userId,
 				project_id: this.$route.params.id,
 				message: this.message,
 			};
+			
 			AxiosInstance
-				.post(
-					"/chat/send",
-					user_message,
-				)
+				.post("/chat/send", user_message)
 				.then((response) => {
 					if (!response) {
 						return;
 					}
 					this.message = '';
 					this.messages.push(response.data.data);
-					
+					this.scrollMessagesToBottom();
 				})
 				.catch((errors) => {
 					console.log(errors)
 				});
-			
 		},
 		
 		getMessages() {
@@ -122,9 +119,10 @@ export default {
 						return response;
 					}
 					this.messages = response.data.data;
+					this.scrollMessagesToBottom();
 				})
-				.catch((errors) => {
-					console.log(errors)
+				.catch(() => {
+					router.push('/404')
 				});
 		},
 		
@@ -136,8 +134,15 @@ export default {
 					message: data.message,
 					created_at: data.created_at
 				});
+				this.scrollMessagesToBottom();
 				console.log('msg', data);
-				
+			});
+		},
+		
+		scrollMessagesToBottom() {
+			this.$nextTick(() => {
+				const container = this.$refs.messageContainer;
+				container.scrollTop = container.scrollHeight;
 			});
 		},
 	},
@@ -151,5 +156,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
