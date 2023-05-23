@@ -13,11 +13,11 @@
 			</router-link>
 		</div>
 		
-		<div class="bg-dark flex-1 p-2 sm:p-6 justify-between flex flex-col h-screen">
-			
-			<div class="overflow-y-auto pt-14 pb-6">
-				<ul v-if="messages" class="mr-20">
+		<div class="bg-dark flex-1 p-2 sm:p-6 justify-between flex flex-col h-screen border rounded mx-5">
+			<div class="overflow-y-auto pt-14 pb-6" style="height: 400px;">
+				<ul v-if="messages" class="px-4">
 					<li v-for="message in messages" :key="message.id" class="d-flex flex-column">
+						
 						<div v-if="userId === message.sender_id" class="text-end">
 							<div class="d-flex justify-content-end">
 								<p class="text-primary mr-2">{{ message.created_at }} </p>
@@ -50,9 +50,7 @@
 					
 					<div class="d-flex align-items-center ms-2">
 						<button @click="sendMessage" class="btn btn-primary rounded-full h-12 w-12">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-6 w-6 transform rotate-90">
-								<path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
-							</svg>
+							Send
 						</button>
 					</div>
 				</div>

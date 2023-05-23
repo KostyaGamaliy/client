@@ -13,3 +13,15 @@ export function nameValidation(name) {
 	
 	return errors
 }
+
+export function deleteRoleValidation(role) {
+	let errors = []
+	
+	if (role === null || role === "") {
+		errors = ['This field must be filled in']
+	} else {
+		errors = null
+	}
+	
+	return errors
+}

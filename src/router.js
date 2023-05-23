@@ -146,6 +146,14 @@ const routes = [
 			requiresAuth: true
 		}
 	},
+	{
+		path: "/projects/:id/roles/delete",
+		name: "role-delete",
+		component: () => import("@/components/Role/DeleteRole.vue"),
+		meta: {
+			requiresAuth: true
+		}
+	},
 ];
 
 const router = createRouter({
