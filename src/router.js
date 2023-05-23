@@ -138,6 +138,14 @@ const routes = [
 			requiresAuth: true
 		}
 	},
+	{
+		path: "/projects/:id/roles/create",
+		name: "role-create",
+		component: () => import("@/components/Role/CreateRole.vue"),
+		meta: {
+			requiresAuth: true
+		}
+	},
 ];
 
 const router = createRouter({

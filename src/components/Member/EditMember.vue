@@ -55,7 +55,7 @@ export default {
 		getUser(id) {
 			AxiosInstance.get(`/projects/${this.$route.params.projectId}/members/${id}`).then((response) => {
 				this.user = response.data.member;
-				this.userRole = response.data.role[0];
+				response.data.role[0] ? this.userRole = response.data.role[0] : this.userRole.id = null;
 			});
 		},
 		
@@ -69,7 +69,7 @@ export default {
 			this.errors.role = roleValidation(this.userRole.id)
 			
 			if (!this.errors.role) {
-				AxiosInstance.put(`/projects/members/${memberId}/update/${roleId}`).then((response) => {
+				AxiosInstance.put(`/projects/members/${memberId}/update/${roleId}/${this.$route.params.projectId}`).then((response) => {
 					router.go(-1);
 				}).catch(() => {
 					Swal.fire({
