@@ -92,13 +92,14 @@ export default {
 		sendMessage() {
 			let user_message = {
 				sender_id: this.userId,
-				project_id: this.$route.params.id,
+				project_id: parseInt(this.$route.params.id),
 				message: this.message,
 			};
 			
 			AxiosInstance
 				.post("/chat/send", user_message)
 				.then((response) => {
+					// console.log(response)
 					if (!response) {
 						return;
 					}
@@ -127,15 +128,19 @@ export default {
 		},
 		
 		listen() {
-			let channel = window.Echo.channel(`chat.${this.user.id}`);
+			let channel = window.Echo.channel(`chat.${parseInt(this.$route.params.id)}`);
 			channel.listen(".new-message", (data) => {
+				
+				console.log('msg', data);
+				
 				this.messages.push({
 					sender: data.sender,
 					message: data.message,
+					project_id: this.$route.params.id,
 					created_at: data.created_at
 				});
 				this.scrollMessagesToBottom();
-				console.log('msg', data);
+				
 			});
 		},
 		
