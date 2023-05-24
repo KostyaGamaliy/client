@@ -64,6 +64,7 @@ import AxiosInstance from "@/services/AxiosInstance";
 import { useAuthStore } from "@/store/Auth";
 import { mapState } from "pinia";
 import router from "@/router";
+import pusher from "@/services/pusher";
 
 export default {
 	name: "ChatPage",
@@ -104,7 +105,6 @@ export default {
 						return;
 					}
 					this.message = '';
-					this.messages.push(response.data.data);
 					this.scrollMessagesToBottom();
 				})
 				.catch((errors) => {
@@ -128,19 +128,19 @@ export default {
 		},
 		
 		listen() {
-			let channel = window.Echo.channel(`chat.${parseInt(this.$route.params.id)}`);
-			channel.listen(".new-message", (data) => {
-				
-				console.log('msg', data);
-				
+			let channel = window.Echo.channel('chat.' + parseInt(this.$route.params.id));
+			channel.listen('.new-message', (data) => {
+				console.log(data)
 				this.messages.push({
+					id: data.id,
 					sender: data.sender,
+					sender_id: data.sender_id,
 					message: data.message,
 					project_id: this.$route.params.id,
 					created_at: data.created_at
 				});
-				this.scrollMessagesToBottom();
 				
+				this.scrollMessagesToBottom();
 			});
 		},
 		
