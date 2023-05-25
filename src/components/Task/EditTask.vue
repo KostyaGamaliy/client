@@ -91,7 +91,7 @@ export default {
 		
 		getTask(id) {
 			AxiosInstance.get(`/projects/tasks/${id}`).then((response) => {
-				this.task = response.data.data;
+					this.task = response.data.data;
 			});
 		},
 		
@@ -105,6 +105,7 @@ export default {
 	mounted() {
 		const taskId = this.$route.params.taskId;
 		const projectId = this.$route.params.projectId;
+		
 		this.getTask(taskId);
 		this.getUsers(projectId);
 	}

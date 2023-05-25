@@ -46,7 +46,7 @@
 			
 			<div class="border-top-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
 				<div class="d-flex">
-					<input v-model="message" type="text" placeholder="Message" @keyup.enter="sendMessage" class="w-full form-control">
+					<input v-model="message" type="text" placeholder="Message" @keyup.enter="sendMessage" class="w-full form-control" maxlength="110">
 					
 					<div class="d-flex align-items-center ms-2">
 						<button @click="sendMessage" class="btn btn-primary rounded-full h-12 w-12">
